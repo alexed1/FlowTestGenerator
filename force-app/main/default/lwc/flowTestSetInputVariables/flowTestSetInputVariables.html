@@ -1,0 +1,62 @@
+<template>
+    <lightning-spinner if:true={isLoading} alternative-text="Loading" size="large"></lightning-spinner>
+
+    <div class="slds-box slds-theme_default">
+        <div class="slds-grid slds-wrap">
+            <lightning-layout-item size="12" class="slds-m-top_x-small">
+                <template for:each={_expressionLines} for:item="expression" for:index="index">
+                    <lightning-layout key={expression.id} multiple-rows="true">
+                        <lightning-layout-item size="6" class="slds-p-left--small slds-align-bottom">
+                            <lightning-layout>
+                                <lightning-layout-item size="12">
+                                    <lightning-combobox name="paramName"
+                                                        label="Field"
+                                                        placeholder="Field"
+                                                        options={inputOptions}
+                                                        data-id={expression.id}
+                                                        value={expression.paramName}
+                                                        onchange={handleParamChange}>
+                                    </lightning-combobox>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" class="slds-p-left--small slds-align-bottom">
+                            <lightning-layout>
+                                <lightning-layout-item size="11">
+                                    <label class="slds-form-element__label">Value</label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input
+                                                name="paramValue"
+                                                type={expression.type}
+                                                data-id={expression.id}
+                                                onblur={handleValueChange}
+                                                value={expression.paramValue}
+                                        ></lightning-input>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="1" class="slds-p-left--xx-small slds-align-bottom">
+                                    <lightning-button-icon
+                                            icon-name="utility:delete"
+                                            alternative-text="Delete"
+                                            data-id={expression.id}
+                                            onclick={handleExpressionRemove}
+                                            class="slds-m-left_xx-small">
+                                    </lightning-button-icon>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" class="slds-m-top_x-small">
+                <lightning-button
+                        label={addButtonLabel}
+                        title={addButtonLabel}
+                        icon-name="utility:add"
+                        onclick={handleAddExpression}
+                        disabled={disabledAddButton}>
+                </lightning-button>
+            </lightning-layout-item>
+        </div>
+    </div>
+</template>

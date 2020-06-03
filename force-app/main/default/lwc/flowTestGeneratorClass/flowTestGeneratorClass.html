@@ -1,0 +1,31 @@
+<template>
+        <c-flow-test-generator-method
+                key={curTestMethod.id}
+                method-name={curTestMethod.id}
+                flow-api-name={flowApiName}
+                input-options={_inputOptions}
+                output-options={_outputOptions}
+                flow-variables={_flowVariables}
+                step-name={stepName}
+                onstepchanged={handleStepChangedEvent}
+        ></c-flow-test-generator-method>
+    <template if:true={renderConfirmScreen}>
+        <div class="slds-p-top_large">
+            <lightning-button
+                    class="slds-float_right"
+                    variant="brand"
+                    label={labels.generateTestClassLabel}
+                    title={labels.generateTestClassLabel}
+                    icon-name="utility:automate"
+                    onclick={handleGenerateTestClass}
+            ></lightning-button>
+            <lightning-button
+                    class="slds-float_right"
+                    label={labels.addNewMethodButtonLabel}
+                    title={labels.addNewMethodButtonLabel}
+                    icon-name="utility:add"
+                    onclick={handleAddTestMethod}
+            ></lightning-button>
+        </div>
+    </template>
+</template>

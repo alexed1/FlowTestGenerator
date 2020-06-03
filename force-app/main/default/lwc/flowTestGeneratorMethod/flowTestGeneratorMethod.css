@@ -1,0 +1,9 @@
+.border-top-2px {
+    border-top: solid 2px;
+    width: 100%;
+    border-color: var(--lwc-colorBorder);
+}
+
+.text-align-end {
+    text-align: end;
+}

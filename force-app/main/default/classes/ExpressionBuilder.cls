@@ -111,7 +111,6 @@ public with sharing class ExpressionBuilder {
         }
 
         return customLogic;
-
     }
 /*
 Due to not stable formula disassembly for custom conditions we have excluded this option.
@@ -131,7 +130,11 @@ Formula represents all conditions and must look like this:
 OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2")),CONTAINS($Account.Name, TEXT("3")),CONTAINS($Account.Name, TEXT("4"))))
 */
     @AuraEnabled
-    public static Map<String, Object> disassemblyFormulaString(String expression) {
+    public static Map<String, Object> disassemblyFormulaString(String expression, String customVariableDelimiter) {
+        if (customVariableDelimiter != null) {
+            expression = expression.replaceAll(customVariableDelimiter, '\\$');
+        }
+
         Map<String, Object> result = new Map<String, Object>();
 
         if (String.isEmpty(expression)) {
@@ -280,18 +283,20 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
                 result.put('logicType', 'CUSTOM');
                 result.put('customLogic', expression);
             } else {
-            if (expression.indexOf('AND') > -1) {
-                result.put('logicType', 'AND');
-            } else {
-                result.put('logicType', 'OR');
-            }
-            result.put('customLogic', '');
+                if (expression.indexOf('AND') > -1) {
+                    result.put('logicType', 'AND');
+                } else {
+                    result.put('logicType', 'OR');
+                }
+                result.put('customLogic', '');
             }
         } else {
             result.put('logicType', 'AND');
         }
 
-        result.put('expressionLines', convertSetToExpressionLineWrapper(conditions));
+        result.put('expressionLines', convertSetToExpressionLineWrapper(conditions, customVariableDelimiter));
+
+
         return result;
     }
 
@@ -315,7 +320,7 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
     }
 
     public static String convertExpressionLines(ExpressionLineWrapper expressionLine) {
-        String leftItem = '\\'+expressionLine.fieldName;
+        String leftItem = '\\' + expressionLine.fieldName;
         String rightItem = String.escapeSingleQuotes(expressionLine.parameter);
         String dataType = expressionLine.dataType.toUpperCase();
         String result = '';
@@ -372,14 +377,15 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
 
     }
 
-    public static List<ExpressionLineWrapper> convertSetToExpressionLineWrapper(Set<String> lines) {
+    public static List<ExpressionLineWrapper> convertSetToExpressionLineWrapper(Set<String> lines, String customVariableDelimiter) {
         List<ExpressionLineWrapper> result = new List<ExpressionLineWrapper>();
 
         for (String line : lines) {
             List<String> lineParameters = line.split(' ');
             if (lineParameters.size() == 3) {
                 List<String> fieldInfo = lineParameters[0].replaceAll('[$]', '').split('\\.');
-                result.add(new ExpressionLineWrapper(fieldInfo[0], lineParameters[0], '', lineParameters[1], lineParameters[2]));
+                String fieldName = customVariableDelimiter == null ? lineParameters[0] : lineParameters[0].replaceAll('\\$', customVariableDelimiter);
+                result.add(new ExpressionLineWrapper(fieldInfo[0], fieldName, '', lineParameters[1], lineParameters[2]));
             }
         }
 

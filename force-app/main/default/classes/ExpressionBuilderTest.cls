@@ -20,7 +20,7 @@ public with sharing class ExpressionBuilderTest {
 
         System.assertEquals(expectResult, assembleResult);
 
-        Map<String, Object> disassemblyResult = ExpressionBuilder.disassemblyFormulaString(assembleResult);
+        Map<String, Object> disassemblyResult = ExpressionBuilder.disassemblyFormulaString(assembleResult, null);
         List<ExpressionBuilder.ExpressionLineWrapper> data = (List<ExpressionBuilder.ExpressionLineWrapper>)disassemblyResult.get('expressionLines');
 
         System.assertEquals('CUSTOM', String.valueOf(disassemblyResult.get('logicType')));
@@ -36,7 +36,7 @@ public with sharing class ExpressionBuilderTest {
 
         System.assertEquals(expectResult, assembleResult);
 
-        disassemblyResult = ExpressionBuilder.disassemblyFormulaString(assembleResult);
+        disassemblyResult = ExpressionBuilder.disassemblyFormulaString(assembleResult, null);
         data = (List<ExpressionBuilder.ExpressionLineWrapper>)disassemblyResult.get('expressionLines');
 
         System.assertEquals('AND', String.valueOf(disassemblyResult.get('logicType')));
@@ -50,7 +50,7 @@ public with sharing class ExpressionBuilderTest {
 
         System.assertEquals(expectResult, assembleResult);
 
-        disassemblyResult = ExpressionBuilder.disassemblyFormulaString(assembleResult);
+        disassemblyResult = ExpressionBuilder.disassemblyFormulaString(assembleResult, null);
         data = (List<ExpressionBuilder.ExpressionLineWrapper>)disassemblyResult.get('expressionLines');
 
         System.assertEquals('OR', String.valueOf(disassemblyResult.get('logicType')));

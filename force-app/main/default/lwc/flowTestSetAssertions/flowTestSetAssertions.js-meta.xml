@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>48.0</apiVersion>
-    <description>Flow Test Generator</description>
+    <description>Flow Test Set Assertions</description>
     <isExposed>true</isExposed>
-    <masterLabel>Flow Test Generator</masterLabel>
+    <masterLabel>Flow Test Set Assertions</masterLabel>
     <targets>
         <target>lightning__FlowScreen</target>
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
             <property label="Flow Variables" name="flowVariables" type="apex://FlowVariable[]" role="inputOnly"> </property>
-            <property label="Flow Api Name" name="flowApiName" type="String" role="inputOnly"> </property>
+            <property label="Flow Test Id" name="flowTestId" type="String" role="inputOnly"> </property>
+            <property label="Test Assertions" name="testAssertions" type="@salesforce/schema/Flow_Test_Method_Assertion__c[]"> </property>
         </targetConfig>
     </targetConfigs>
 </LightningComponentBundle>

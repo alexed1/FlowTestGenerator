@@ -5,16 +5,16 @@
         <div class="slds-grid slds-wrap">
             <lightning-layout-item size="12" class="slds-m-top_x-small">
                 <template for:each={_expressionLines} for:item="expression" for:index="index">
-                    <lightning-layout key={expression.id} multiple-rows="true">
+                    <lightning-layout key={expression.uid} multiple-rows="true">
                         <lightning-layout-item size="6" class="slds-p-left--small slds-align-bottom">
                             <lightning-layout>
                                 <lightning-layout-item size="12">
-                                    <lightning-combobox name="paramName"
+                                    <lightning-combobox name="Name"
                                                         label="Field"
                                                         placeholder="Field"
-                                                        options={inputOptions}
-                                                        data-id={expression.id}
-                                                        value={expression.paramName}
+                                                        options={_inputOptions}
+                                                        data-uid={expression.uid}
+                                                        value={expression.Name}
                                                         onchange={handleParamChange}>
                                     </lightning-combobox>
                                 </lightning-layout-item>
@@ -26,11 +26,11 @@
                                     <label class="slds-form-element__label">Value</label>
                                     <div class="slds-form-element__control">
                                         <lightning-input
-                                                name="paramValue"
-                                                type={expression.type}
-                                                data-id={expression.id}
+                                                name="Value__c"
+                                                type={expression.Type__c}
+                                                data-uid={expression.uid}
                                                 onblur={handleValueChange}
-                                                value={expression.paramValue}
+                                                value={expression.Value__c}
                                         ></lightning-input>
                                     </div>
                                 </lightning-layout-item>
@@ -38,7 +38,7 @@
                                     <lightning-button-icon
                                             icon-name="utility:delete"
                                             alternative-text="Delete"
-                                            data-id={expression.id}
+                                            data-uid={expression.uid}
                                             onclick={handleExpressionRemove}
                                             class="slds-m-left_xx-small">
                                     </lightning-button-icon>
@@ -50,8 +50,8 @@
             </lightning-layout-item>
             <lightning-layout-item size="12" class="slds-m-top_x-small">
                 <lightning-button
-                        label={addButtonLabel}
-                        title={addButtonLabel}
+                        label={labels.addButtonLabel}
+                        title={labels.addButtonLabel}
                         icon-name="utility:add"
                         onclick={handleAddExpression}
                         disabled={disabledAddButton}>

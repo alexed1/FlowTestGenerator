@@ -9,6 +9,7 @@ export default class expressionBuilder extends LightningElement {
     @api name;
     @api addButtonLabel = 'Add Condition';
     @api dispatchComponentChangeEvents = false;
+    @api customVariableDelimiter;
     @track objectName;
     @track expressionLines = [];
     @track customLogic = '';
@@ -93,7 +94,10 @@ export default class expressionBuilder extends LightningElement {
     conditionLogicHelpText = 'placeholder for conditionLogicHelpTest' //conditionLogicHelpText;
 
     doDisassemblyFormulaString() {
-        disassemblyFormulaString({expression: this.convertedExpression}).then(result => {
+        disassemblyFormulaString({
+            expression: this.convertedExpression,
+            customVariableDelimiter: this.customVariableDelimiter
+        }).then(result => {
             if (result.logicType !== undefined) {
                 this.logicType = result.logicType;
             }

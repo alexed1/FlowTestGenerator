@@ -4,4 +4,14 @@
     <description>Flow Test Set Input Variables</description>
     <isExposed>true</isExposed>
     <masterLabel>Flow Test Set Input Variables</masterLabel>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property label="Flow Variables" name="flowVariables" type="apex://FlowVariable[]" role="inputOnly"> </property>
+            <property label="Flow Test Id" name="flowTestId" type="String" role="inputOnly"> </property>
+            <property label="Input Variables" name="inputOptionsValues" type="@salesforce/schema/Flow_Test_Method_Input_Variable__c[]"> </property>
+        </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

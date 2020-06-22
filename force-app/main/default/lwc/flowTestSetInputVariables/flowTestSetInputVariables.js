@@ -1,17 +1,28 @@
 import {LightningElement, track, api} from 'lwc';
 import {settings} from 'c/flowTestGeneratorUtils';
-
+import {FlowAttributeChangeEvent} from 'lightning/flowSupport';
 
 export default class FlowTestSetInputVariables extends LightningElement {
-    @api name;
-    @api label;
-    @api addButtonLabel;
-    @api flowVariables = [];
-    @api inputOptions = [];
+    @api flowTestId;
     @track _expressionLines = [];
-
+    _flowVariables = [];
+    _inputOptions = [];
+    // _outputOptions = [];
     isLoading;
     lastExpressionIndex = 0;
+
+    labels = {
+        addButtonLabel: 'Add'
+    }
+
+    @api get flowVariables() {
+        return this._flowVariables;
+    }
+
+    set flowVariables(value) {
+        this._flowVariables = value;
+        this.setVariablesOptions();
+    }
 
     @api get expressionLines() {
         return this._expressionLines;
@@ -21,26 +32,63 @@ export default class FlowTestSetInputVariables extends LightningElement {
         this._expressionLines = value;
     }
 
+    @api get inputOptionsValues() {
+        let resultOptions = [];
+        this._expressionLines.forEach(curLine => {
+            // if (curLine.paramValue || curLine.paramValue) {
+            resultOptions.push(this.convertJSToSObject(curLine));
+            // }
+        });
+        return resultOptions;
+    }
+
+    set inputOptionsValues(value) {
+        this._expressionLines = [];
+        if (value && value.length) {
+            value.forEach(curValue => {
+                this._expressionLines.push(this.convertSObjectToJS(curValue));
+            });
+        }
+    }
+
+    generateNewExpression(curValue) {
+        if (curValue) {
+            return {...curValue, ...{uid: this.lastExpressionIndex++}}
+        }
+        return {
+            uid: this.lastExpressionIndex++,
+            Name: '',
+            Value__c: '',
+            Type__c: null,
+            Id: null,
+            Flow_Test__c: this.flowTestId
+        };
+    }
+
+    convertJSToSObject(curValue) {
+        let newValue = JSON.parse(JSON.stringify(curValue));
+        delete newValue.uid;
+        return newValue;
+    }
+
+    convertSObjectToJS(curValue) {
+        return this.generateNewExpression(curValue);
+    }
+
     connectedCallback() {
         if (!this._expressionLines || !this._expressionLines.length) {
             this.addNewExpression();
         }
     }
 
-    dispatchValueChangedEvent() {
-        const memberRefreshedEvt = new CustomEvent('expressionchanged', {
-            bubbles: true,
-            detail: {
-                name: this.name,
-                value: this._expressionLines
-            }
-        });
-        this.dispatchEvent(memberRefreshedEvt);
+    dispatchFlowValueChangedEvent() {
+        const valueChangeEvent = new FlowAttributeChangeEvent('inputOptionsValues', this.inputOptionsValues);
+        this.dispatchEvent(valueChangeEvent);
     }
 
     handleParamChange(event) {
 
-        let curExpressionLine = this.getExpressionLineById(event.currentTarget.dataset.id);
+        let curExpressionLine = this.getExpressionLineById(event.currentTarget.dataset.uid);
         if (curExpressionLine) {
             let isOptionValid = this.isOptionValid(curExpressionLine[event.currentTarget.name], event.detail.value);
             if (isOptionValid) {
@@ -49,7 +97,7 @@ export default class FlowTestSetInputVariables extends LightningElement {
                     let curVariable = this.getFlowVariableByApiName(event.detail.value);
                     if (curVariable) {
                         let definedType = settings.inputTypeMap[curVariable.DataType];
-                        curExpressionLine.type = definedType ? definedType : settings.inputTypeText
+                        curExpressionLine.Type__c = definedType ? definedType : settings.inputTypeText
                     }
                 }
             } else {
@@ -57,29 +105,45 @@ export default class FlowTestSetInputVariables extends LightningElement {
                 console.log('Option is invalid: ' + event.detail.value);
             }
         }
-        this.dispatchValueChangedEvent();
+        this.dispatchFlowValueChangedEvent();
+    }
+
+    setVariablesOptions() {
+        this._inputOptions = [];
+        if (this._flowVariables && this._flowVariables.length) {
+            this._flowVariables.forEach(curVariable => {
+                if (!curVariable.IsCollection) {
+                    if (curVariable.IsInput) {
+                        this._inputOptions.push({
+                            label: curVariable.ApiName,
+                            value: curVariable.ApiName
+                        })
+                    }
+                }
+            })
+        }
     }
 
     handleValueChange(event) {
-        let curExpressionLine = this.getExpressionLineById(event.currentTarget.dataset.id);
+        let curExpressionLine = this.getExpressionLineById(event.currentTarget.dataset.uid);
         if (curExpressionLine) {
             curExpressionLine[event.currentTarget.name] = event.target.value;
         }
-        this.dispatchValueChangedEvent();
+        this.dispatchFlowValueChangedEvent();
     }
 
     getExpressionLineById(id) {
-        return this._expressionLines.find(curLine => curLine.id.toString() === id);
+        return this._expressionLines.find(curLine => curLine.uid.toString() === id);
     }
 
     getFlowVariableByApiName(apiName) {
-        if (this.flowVariables && this.flowVariables.length) {
-            return this.flowVariables.find(curVariable => curVariable.ApiName === apiName);
+        if (this._flowVariables && this._flowVariables.length) {
+            return this._flowVariables.find(curVariable => curVariable.ApiName === apiName);
         }
     }
 
     handleExpressionRemove(event) {
-        this._expressionLines = this._expressionLines.filter(curLine => curLine.id.toString() !== event.currentTarget.dataset.id);
+        this._expressionLines = this._expressionLines.filter(curLine => curLine.uid.toString() !== event.currentTarget.dataset.uid);
     }
 
     handleAddExpression() {
@@ -90,27 +154,6 @@ export default class FlowTestSetInputVariables extends LightningElement {
         this._expressionLines.push(this.generateNewExpression());
     }
 
-    generateNewExpression() {
-        return {
-            id: this.name + this.lastExpressionIndex++,
-            paramName: '',
-            paramValue: '',
-            type: null
-        };
-    }
-
-    // getValidOptions(selectedLineOption) {
-    //     if (!this.expressionLines || !this.expressionLines.length) {
-    //         return this._inputOptions;
-    //     } else {
-    //         return this._inputOptions.filter(curOption => {
-    //             let foundExpression = this.expressionLines.find(curExpressionLine => {
-    //                 return (curExpressionLine.paramName === curOption.value || curExpressionLine.paramName === selectedLineOption)
-    //             });
-    //             return !foundExpression;
-    //         });
-    //     }
-    // }
 
     isOptionValid(selectedLineOption, newLineOption) {
         return true;
@@ -119,6 +162,6 @@ export default class FlowTestSetInputVariables extends LightningElement {
     }
 
     get disabledAddButton() {
-        return this._expressionLines.length >= this.inputOptions.length;
+        return this._expressionLines.length >= this._inputOptions.length;
     }
 }

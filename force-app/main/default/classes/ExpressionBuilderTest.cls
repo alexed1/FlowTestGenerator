@@ -14,9 +14,9 @@ public with sharing class ExpressionBuilderTest {
 
         String assembleResult = ExpressionBuilder.assembleFormulaString(expression, 'CUSTOM', testData);
         String expectResult = 'AND(LEFT($Account.AccountNumber, 1) == TEXT("1"), OR($Account.AccountSource != TEXT("A"), ' +
-        '$Account.AnnualRevenue < DECIMAL("2")), $Account.Id == TEXT("3"), OR(CONTAINS($User.AccountNumber, TEXT("1")), ' +
-        '!CONTAINS($Organization.AccountSource, TEXT("A")), AND(INCLUDES($Account.AnnualRevenue, DECIMAL("2")), ' +
-        '!INCLUDES($Account.Id, TEXT("3")))), OR(LEFT($Account.AccountNumber, 1) == TEXT("1"), $Account.AccountSource != TEXT("A")))';
+        '$Account.AnnualRevenue < DECIMAL("2")), $Account.Id == TEXT("3"), OR(CONTAINS($User.AccountNumber , TEXT("1")), ' +
+        '!CONTAINS($Organization.AccountSource , TEXT("A")), AND(INCLUDES($Account.AnnualRevenue , DECIMAL("2")), ' +
+        '!INCLUDES($Account.Id , TEXT("3")))), OR(LEFT($Account.AccountNumber , 1) == TEXT("1"), $Account.AccountSource != TEXT("A")))';
 
         System.assertEquals(expectResult, assembleResult);
 

@@ -5,6 +5,7 @@ export default class expressionLine extends LightningElement {
     @api objectType;
     @api operator;
     @api value;
+    @api valueType = 'text';
     @api expressionId;
     @api expressionIndex;
     @api availableMergeFields = [];
@@ -13,8 +14,16 @@ export default class expressionLine extends LightningElement {
     @track currentField;
     @track _fieldName;
     @track allOperators = [
-        {value: 'equals',label: 'Equals',types: 'ID,BOOLEAN,REFERENCE,STRING,EMAIL,PICKLIST,TEXTAREA,DATETIME,PHONE,DOUBLE,ADDRESS,INTEGER,URL'},
-        {value: 'not_equal_to',label: 'Not Equal To', types: 'ID,BOOLEAN,REFERENCE,STRING,EMAIL,PICKLIST,TEXTAREA,DATETIME,PHONE,DOUBLE,ADDRESS,INTEGER,URL'},
+        {
+            value: 'equals',
+            label: 'Equals',
+            types: 'ID,BOOLEAN,REFERENCE,STRING,EMAIL,PICKLIST,TEXTAREA,DATETIME,PHONE,DOUBLE,ADDRESS,INTEGER,URL'
+        },
+        {
+            value: 'not_equal_to',
+            label: 'Not Equal To',
+            types: 'ID,BOOLEAN,REFERENCE,STRING,EMAIL,PICKLIST,TEXTAREA,DATETIME,PHONE,DOUBLE,ADDRESS,INTEGER,URL'
+        },
         {value: 'greater_then', label: 'Greater than', types: 'DOUBLE,INTEGER,DATETIME'},
         {value: 'greater_or_equal', label: 'Greater Or Equal', types: 'DOUBLE,INTEGER,DATETIME'},
         {value: 'less_then', label: 'Less Than', types: 'DOUBLE,INTEGER,DATETIME'},
@@ -28,14 +37,6 @@ export default class expressionLine extends LightningElement {
 
     initialized = false;
 
-    renderedCallback() {
-        if (this.initialized) {
-            return;
-        }
-        this.initialized = true;
-        let listId = this.template.querySelector('datalist').id;
-        this.template.querySelector("input").setAttribute("list", listId);
-    }
 
     @api
     get fields() {
@@ -62,10 +63,10 @@ export default class expressionLine extends LightningElement {
     get availableOperators() {
         if (this.currentField) {
             return this.allOperators.filter(curOperator => curOperator.types.includes(this.currentField.dataType.toUpperCase()));
-            } else {
+        } else {
             return [];
-            }
         }
+    }
 
     selectField(event) {
         let eventValue = event.detail.value;
@@ -80,11 +81,11 @@ export default class expressionLine extends LightningElement {
     }
 
     setCurrentField() {
-        if (this._fields && this._fields.length &&  this._fieldName) {
+        if (this._fields && this._fields.length && this._fieldName) {
             if (!this.currentField || this.currentField.value !== this._fieldName) {
                 this.currentField = this._fields.find(curField => curField.value === this._fieldName);
             }
-                }
+        }
     }
 
     get disabledFilter() {

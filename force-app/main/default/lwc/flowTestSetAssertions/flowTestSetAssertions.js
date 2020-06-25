@@ -88,7 +88,8 @@ export default class FlowTestSetAssertions extends LightningElement {
                         this._outputOptions.push({
                             label: curVariable.ApiName,
                             value: ('##' + curVariable.ApiName),
-                            dataType: curType ? curType : settings.outputTypeString
+                            dataType: curType ? curType : settings.outputTypeString,
+                            valueType: curVariable.DataType.toLowerCase()
                         })
                     }
                 }

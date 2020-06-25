@@ -115,6 +115,7 @@ export default class expressionBuilder extends LightningElement {
                             objectType: line.objectType,
                             operator: line.operator,
                             parameter: line.parameter,
+                            valueType: fieldData ? fieldData.valueType : 'text',
                             dataType: fieldData ? fieldData.dataType : null
                         }
                     });

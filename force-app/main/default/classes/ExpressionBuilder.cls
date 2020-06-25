@@ -145,7 +145,8 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
         String parentCondition = expression.indexOf('AND') == 0 ? ' AND ' : ' OR ';
         Boolean isSingleExpression = expression.indexOf('AND(') != 0 && expression.indexOf('OR(') != 0;
         Boolean isCustomLogic = expression.indexOf('AND(') != -1 && expression.indexOf('OR(') != -1;
-        Pattern mPattern = pattern.compile('[^ANDOR(][\\w!=<>.,"()$]{1,}');
+//        Pattern mPattern = pattern.compile('[^ANDOR(][\\w-:!=<>.,"()$]{1,}');
+        Pattern mPattern = pattern.compile('^(AND\\(|OR\\()[\\w-:!=<>. ,"()$]{1,}');
 //        Pattern mPattern = pattern.compile('(?<=OR|AND\\().*');
         Matcher mMatcher = mPattern.matcher(expression);
 
@@ -197,7 +198,7 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
             expression = expression.replaceAll(mMatcher.group(0).replace('(', '\\(').replace(')', '\\)').replaceAll('\\$', '\\\\\\$'), newValue);
         }
 
-        mPattern = pattern.compile('(BOOLEAN|DECIMAL|DATE|DATETIME|INTEGER|TEXT)\\([\\w".,-/+]{1,}\\)');
+        mPattern = pattern.compile('(BOOLEAN|DECIMAL|DATE|DATETIME|INTEGER|TEXT)\\([\\w".,-:/+]{1,}\\)');
         mMatcher = mPattern.matcher(expression);
 
         while (mMatcher.find()) {
@@ -296,7 +297,6 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
 
         result.put('expressionLines', convertSetToExpressionLineWrapper(conditions, customVariableDelimiter));
 
-
         return result;
     }
 
@@ -334,19 +334,19 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
         }
 
         if (expressionLine.operator == 'starts_with') {
-            result = 'LEFT(' + leftItem + ', ' + expressionLine.parameter.length() + ') == ' + convertValueType(rightItem, dataType);
+            result = 'LEFT(' + leftItem + ' , ' + expressionLine.parameter.length() + ') == ' + convertValueType(rightItem, dataType);
         }
 
         if (expressionLine.operator == 'end_with') {
-            result = 'RIGHT(' + leftItem + ', ' + expressionLine.parameter.length() + ') == ' + convertValueType(rightItem, dataType);
+            result = 'RIGHT(' + leftItem + ' , ' + expressionLine.parameter.length() + ') == ' + convertValueType(rightItem, dataType);
         }
 
         if (expressionLine.operator == 'contains') {
-            result = 'CONTAINS(' + leftItem + ', ' + convertValueType(rightItem, dataType) + ')';
+            result = 'CONTAINS(' + leftItem + ' , ' + convertValueType(rightItem, dataType) + ')';
         }
 
         if (expressionLine.operator == 'does_not_contain') {
-            result = '!CONTAINS(' + leftItem + ', ' + convertValueType(rightItem, dataType) + ')';
+            result = '!CONTAINS(' + leftItem + ' , ' + convertValueType(rightItem, dataType) + ')';
         }
 
         if (expressionLine.operator == 'greater_or_equal') {
@@ -366,11 +366,11 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
         }
 
         if (expressionLine.operator == 'includes') {
-            result = 'INCLUDES(' + leftItem + ', ' + convertValueType(rightItem, dataType) + ')';
+            result = 'INCLUDES(' + leftItem + ' , ' + convertValueType(rightItem, dataType) + ')';
         }
 
         if (expressionLine.operator == 'excludes') {
-            result = '!INCLUDES(' + leftItem + ', ' + convertValueType(rightItem, dataType) + ')';
+            result = '!INCLUDES(' + leftItem + ' , ' + convertValueType(rightItem, dataType) + ')';
         }
 
         return result;

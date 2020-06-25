@@ -1,7 +1,7 @@
 @IsTest
 class Test_Autolaunched_Flow_Test {
     @IsTest
-    static void TestMyAutolaunchedFlow() {
+    static void FlowTestGeneratorTest() {
         String nameSpace = '';
         String flowName = 'Test_Autolaunched_Flow';
         Map<String, String> outputVariablesToTypeMap = new Map<String, String>{
@@ -13,14 +13,15 @@ class Test_Autolaunched_Flow_Test {
                 'outputString'=>'String'
         };//set of all output variables that are used in the assertions
         Map<String, String> inputVariables = new Map<String, String>{
-                'inputOutputDate'=>'2020-06-07',
-                'inputOutputDateTime'=>'2020-06-08T12:00:00.000Z',
+                'inputOutputDateTime'=>'2020-06-23T11:00:00.000Z',
                 'inputOutputNumber'=>'1',
-                'inputOutputString'=>'thisIsString with spaces'
+                'inputOutputString'=>'asd',
+                'inputOutputDate'=>'2020-06-23'
         }; //values for input variables
         Map<String, Object> typedInputVariablesMap = FlowTestGenerator.getTypedInputVariablesMap(outputVariablesToTypeMap, inputVariables);
         Map<String, String> assertionsToErrorMap = new Map<String, String>{
-                'AND(##inputOutputNumber == DECIMAL("1"), ##inputOutputString == TEXT("thisIsString with spaces"), ##inputOutputDate == DATETIME("2020-06-07T00:00:00"), ##inputOutputDateTime == DATETIME("2020-06-08T12:00:00"))'=>'Invalid output parameters'
+                'AND(##inputOutputNumber == DECIMAL("6"), ##inputOutputDate == DATETIME("2020-06-24"), ##inputOutputDateTime == DATETIME("2020-06-23T11:00:00.000Z"), CONTAINS(##inputOutputString , TEXT("asd")), CONTAINS(##inputOutputString , TEXT("1")))'=>'tests2',
+                'AND(##inputOutputString != TEXT("asd2"), ##inputOutputString == TEXT("asd1"))'=>'assertion2 failed'
         };// map of assertion to its error message
 
         Map<String, Object> outputVariables = new Map<String, Object>(); //stores output variables and its values
@@ -40,7 +41,7 @@ class Test_Autolaunched_Flow_Test {
                 }
             }
 
-            System.assertEquals(true, Boolean.valueOf(FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage);
+            System.assertEquals(true, Boolean.valueOf(FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage+ '\nActual output values: \n' + outputVariables);
         }
     }
 }

@@ -21,7 +21,7 @@ public with sharing class FlowTestGenerator {
             String finalTestClassText = TEST_CLASS_STRING.replaceAll(PLACEHOLDER_TEST_CLASS_NAME, escapeSingleQuotes(curFlowTest.Flow_Api_Name__c) + '_Test');
 
             String testMethodText = TEST_METHOD_STRING;
-            testMethodText = testMethodText.replaceAll(PLACEHOLDER_TEST_METHOD_NAME, escapeSingleQuotes(curFlowTest.Name));
+            testMethodText = testMethodText.replaceAll(PLACEHOLDER_TEST_METHOD_NAME, escapeSingleQuotes(curFlowTest.Name.replaceAll('\\W','')));
             testMethodText = testMethodText.replaceAll(PLACEHOLDER_FLOW_NAME, escapeSingleQuotes(curFlowTest.Flow_Api_Name__c));
             testMethodText = testMethodText.replaceAll(PLACEHOLDER_FLOW_NAMESPACE, escapeSingleQuotes(curFlowTest.Namespace__c == null ? '' : curFlowTest.Namespace__c));
 
@@ -189,7 +189,7 @@ public with sharing class FlowTestGenerator {
                     '               }\n' +
                     '            }\n' +
                     '\n' +
-                    '            System.assertEquals(true, Boolean.valueOf(FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage);\n' +
+                    '            System.assertEquals(true, Boolean.valueOf(FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage+ \'\\nActual output values: \\n\' + outputVariables);\n' +
                     '        }\n' +
                     '\t}' ;
 }

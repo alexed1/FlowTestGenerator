@@ -32,11 +32,11 @@ export default class expressionLine extends LightningElement {
         {value: 'starts_with', label: 'Starts with', types: 'ID,STRING,EMAIL,PICKLIST,TEXTAREA,PHONE,ADDRESS,URL'},
         {value: 'end_with', label: 'End with', types: 'ID,STRING,EMAIL,PICKLIST,TEXTAREA,PHONE,ADDRESS,URL'}
     ];
-
+    labels = {
+        supportedCharactersRegex: '^[a-zA-Z0-9_,.\\- !]*$',
+        unsupportedCharactersMessage: "Value contains unsupported characters."
+    }
     @track filterValue = '';
-
-    initialized = false;
-
 
     @api
     get fields() {
@@ -125,4 +125,22 @@ export default class expressionLine extends LightningElement {
         return this.expressionIndex + 1;
     }
 
+    @api
+    validate() {
+        let validity = {
+            isValid: true
+        };
+        let inputsToVerify = this.template.querySelectorAll('lightning-input');
+        if (inputsToVerify && inputsToVerify.length) {
+            inputsToVerify.forEach(curInput => {
+                let reportedValidity = curInput.reportValidity();
+                if (!reportedValidity) {
+                    validity.isValid = false;
+                    validity.errorMessage = this.labels.unsupportedCharactersMessage;
+                    return validity;
+                }
+            })
+        }
+        return validity;
+    }
 }

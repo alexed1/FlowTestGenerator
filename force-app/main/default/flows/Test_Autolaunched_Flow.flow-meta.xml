@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <assignments>
-        <name>Dummy_Element</name>
-        <label>Dummy Element</label>
-        <locationX>305</locationX>
-        <locationY>201</locationY>
+        <name>Assign_Output_Values</name>
+        <label>Assign Output Values</label>
+        <locationX>237</locationX>
+        <locationY>220</locationY>
         <assignmentItems>
-            <assignToReference>outputString</assignToReference>
+            <assignToReference>inputOutputDate</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>inputString</elementReference>
+                <dateValue>2020-07-09</dateValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>inputOutputNumber</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <numberValue>100.0</numberValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>inputOutputString</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Test Output String 3</stringValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -28,11 +42,35 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Opportunity</name>
+        <label>Get Opportunity</label>
+        <locationX>558</locationX>
+        <locationY>93</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <object>Opportunity</object>
+        <outputAssignments>
+            <assignToReference>inputOutputNumber</assignToReference>
+            <field>Amount</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>inputOutputDate</assignToReference>
+            <field>CloseDate</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>inputOutputDateTime</assignToReference>
+            <field>CreatedDate</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>inputOutputString</assignToReference>
+            <field>Name</field>
+        </outputAssignments>
+    </recordLookups>
     <start>
         <locationX>50</locationX>
         <locationY>50</locationY>
         <connector>
-            <targetReference>Dummy_Element</targetReference>
+            <targetReference>Assign_Output_Values</targetReference>
         </connector>
     </start>
     <status>Draft</status>

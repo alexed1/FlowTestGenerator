@@ -13,10 +13,7 @@ public with sharing class ExpressionBuilderTest {
         '{"objectType":"Account","fieldName":"$Account.Id","dataType":"String","operator":"excludes","parameter":"3"}]';
 
         String assembleResult = ExpressionBuilder.assembleFormulaString(expression, 'CUSTOM', testData);
-        String expectResult = 'AND(LEFT($Account.AccountNumber, 1) == TEXT("1"), OR($Account.AccountSource != TEXT("A"), ' +
-        '$Account.AnnualRevenue < DECIMAL("2")), $Account.Id == TEXT("3"), OR(CONTAINS($User.AccountNumber , TEXT("1")), ' +
-        '!CONTAINS($Organization.AccountSource , TEXT("A")), AND(INCLUDES($Account.AnnualRevenue , DECIMAL("2")), ' +
-        '!INCLUDES($Account.Id , TEXT("3")))), OR(LEFT($Account.AccountNumber , 1) == TEXT("1"), $Account.AccountSource != TEXT("A")))';
+        String expectResult = 'AND(LEFT($Account.AccountNumber , 1) == TEXT("1"), OR($Account.AccountSource != TEXT("A"), $Account.AnnualRevenue < DECIMAL("2")), $Account.Id == TEXT("3"), OR(CONTAINS($User.AccountNumber , TEXT("1")), !CONTAINS($Organization.AccountSource , TEXT("A")), AND(INCLUDES($Account.AnnualRevenue , DECIMAL("2")), !INCLUDES($Account.Id , TEXT("3")))), OR(LEFT($Account.AccountNumber , 1) == TEXT("1"), $Account.AccountSource != TEXT("A")))';
 
         System.assertEquals(expectResult, assembleResult);
 
@@ -30,9 +27,7 @@ public with sharing class ExpressionBuilderTest {
 
 
         assembleResult = ExpressionBuilder.assembleFormulaString('', 'AND', testData);
-        expectResult = 'AND(LEFT($Account.AccountNumber, 1) == TEXT("1"), $Account.AccountSource != TEXT("A"), ' +
-        '$Account.AnnualRevenue < DECIMAL("2"), $Account.Id == TEXT("3"), CONTAINS($User.AccountNumber, TEXT("1")), ' +
-        '!CONTAINS($Organization.AccountSource, TEXT("A")), INCLUDES($Account.AnnualRevenue, DECIMAL("2")), !INCLUDES($Account.Id, TEXT("3")))';
+        expectResult = 'AND(LEFT($Account.AccountNumber , 1) == TEXT("1"), $Account.AccountSource != TEXT("A"), $Account.AnnualRevenue < DECIMAL("2"), $Account.Id == TEXT("3"), CONTAINS($User.AccountNumber , TEXT("1")), !CONTAINS($Organization.AccountSource , TEXT("A")), INCLUDES($Account.AnnualRevenue , DECIMAL("2")), !INCLUDES($Account.Id , TEXT("3")))';
 
         System.assertEquals(expectResult, assembleResult);
 
@@ -44,9 +39,7 @@ public with sharing class ExpressionBuilderTest {
         System.assertEquals(8, data.size());
 
         assembleResult = ExpressionBuilder.assembleFormulaString('', 'OR', testData);
-        expectResult = 'OR(LEFT($Account.AccountNumber, 1) == TEXT("1"), $Account.AccountSource != TEXT("A"), ' +
-        '$Account.AnnualRevenue < DECIMAL("2"), $Account.Id == TEXT("3"), CONTAINS($User.AccountNumber, TEXT("1")), ' +
-        '!CONTAINS($Organization.AccountSource, TEXT("A")), INCLUDES($Account.AnnualRevenue, DECIMAL("2")), !INCLUDES($Account.Id, TEXT("3")))';
+        expectResult = 'OR(LEFT($Account.AccountNumber , 1) == TEXT("1"), $Account.AccountSource != TEXT("A"), $Account.AnnualRevenue < DECIMAL("2"), $Account.Id == TEXT("3"), CONTAINS($User.AccountNumber , TEXT("1")), !CONTAINS($Organization.AccountSource , TEXT("A")), INCLUDES($Account.AnnualRevenue , DECIMAL("2")), !INCLUDES($Account.Id , TEXT("3")))';
 
         System.assertEquals(expectResult, assembleResult);
 

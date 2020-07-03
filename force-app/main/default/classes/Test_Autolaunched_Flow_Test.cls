@@ -1,7 +1,7 @@
 @IsTest
 class Test_Autolaunched_Flow_Test {
     @IsTest
-    static void FlowTestGeneratorTest() {
+    static void TestAutoflowwithrecords() {
         String nameSpace = '';
         String flowName = 'Test_Autolaunched_Flow';
         Map<String, String> outputVariablesToTypeMap = new Map<String, String>{
@@ -13,15 +13,14 @@ class Test_Autolaunched_Flow_Test {
                 'outputString'=>'String'
         };//set of all output variables that are used in the assertions
         Map<String, String> inputVariables = new Map<String, String>{
-                'inputOutputDateTime'=>'2020-06-23T11:00:00.000Z',
+                'inputOutputDate'=>'2020-07-02',
+                'inputOutputDateTime'=>'2020-07-20T18:00:00.000Z',
                 'inputOutputNumber'=>'1',
-                'inputOutputString'=>'asd',
-                'inputOutputDate'=>'2020-06-23'
+                'inputOutputString'=>'asd'
         }; //values for input variables
         Map<String, Object> typedInputVariablesMap = FlowTestGenerator.getTypedInputVariablesMap(outputVariablesToTypeMap, inputVariables);
         Map<String, String> assertionsToErrorMap = new Map<String, String>{
-                'AND(##inputOutputNumber == DECIMAL("6"), ##inputOutputDate == DATETIME("2020-06-24"), ##inputOutputDateTime == DATETIME("2020-06-23T11:00:00.000Z"), CONTAINS(##inputOutputString , TEXT("asd")), CONTAINS(##inputOutputString , TEXT("1")))'=>'tests2',
-                'AND(##inputOutputString != TEXT("asd2"), ##inputOutputString == TEXT("asd1"))'=>'assertion2 failed'
+                'AND(##inputOutputNumber == DECIMAL("100"), ##inputOutputNumber > DECIMAL("99"), ##inputOutputNumber < DECIMAL("101"), ##inputOutputDate > DATETIME("2020-07-01"), ##inputOutputDate < DATETIME("2020-07-10"), ##inputOutputDate == DATETIME("2020-07-09"), ##inputOutputDateTime == DATETIME("2020-07-20T18:00:00.000Z"), ##inputOutputDateTime > DATETIME("2020-07-20T17:45:00.000Z"), ##inputOutputDateTime < DATETIME("2020-07-20T18:15:00.000Z"), ##inputOutputString == TEXT("Test Output String 3"))'=>'Output Opportunity Values are not correct'
         };// map of assertion to its error message
 
         Map<String, Object> outputVariables = new Map<String, Object>(); //stores output variables and its values

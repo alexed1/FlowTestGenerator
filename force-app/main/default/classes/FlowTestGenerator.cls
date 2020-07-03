@@ -118,7 +118,7 @@ public with sharing class FlowTestGenerator {
             } else if (curVariableType == 'DateTime') {
                 //DateTime is given in the following format: 2020-09-07T00:00:00Z, we need to convert it so it can be parsed with Datetime.valueOf
                 String dateTimeString = inputVariables.get(curVariableName).replace('T', ' ');
-                result.put(curVariableName, DateTime.valueOf(dateTimeString));
+                result.put(curVariableName, DateTime.valueOfGmt(dateTimeString));
             } else if (curVariableType == 'Number') {
                 result.put(curVariableName, Decimal.valueOf(inputVariables.get(curVariableName)));
             } else {
@@ -137,7 +137,7 @@ public with sharing class FlowTestGenerator {
         String result;
         if (dataType == 'DateTime') {
             DateTime curDate = DateTime.valueOf(value);
-            result = 'DATETIME("' + curDate.format('yyyy-MM-dd\'T\'HH:mm:ss') + '")';
+            result = 'DATETIME("' + curDate.formatGmt('yyyy-MM-dd\'T\'HH:mm:ss') + '")';
         } else if (dataType == 'Date') {
             DateTime curDate = DateTime.valueOf(String.valueOf(value));
             result = 'DATE(' + curDate.year() + ',' + curDate.month() + ',' + curDate.day() + ')';

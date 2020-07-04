@@ -1,7 +1,12 @@
 public with sharing class ExpressionBuilder {
+
+    /*
+    Known issues:
+    1. Not stable work with some special characters (single/double quotes, backslash/slash); Verification regex: ['"\\\/|&^]
+    2. Does not support custom conditions like (1 OR (2 AND 3))
+     */
     @AuraEnabled
     public static String assembleFormulaString(String customLogic, String logicType, String expressionLines) {
-
         List<ExpressionLineWrapper> lines = (List<ExpressionLineWrapper>) JSON.deserialize(expressionLines, List<ExpressionLineWrapper>.class);
 
         String result = '';
@@ -129,8 +134,13 @@ Expected result:
 Formula represents all conditions and must look like this:
 OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2")),CONTAINS($Account.Name, TEXT("3")),CONTAINS($Account.Name, TEXT("4"))))
 */
+    private static final String SPACE_SYMBOL = '__nbsp__';
     @AuraEnabled
     public static Map<String, Object> disassemblyFormulaString(String expression, String customVariableDelimiter) {
+
+        //TODO: determine map of special characters and its replacements. Replace all of them here and do the backward operation in convertSetToExpressionLineWrapper
+        expression = expression.replaceAll(' (?=[^"]*"[^"]*(?:"[^"]*"[^"]*)*$)', SPACE_SYMBOL);
+
         if (customVariableDelimiter != null) {
             expression = expression.replaceAll(customVariableDelimiter, '\\$');
         }
@@ -140,8 +150,8 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
         if (String.isEmpty(expression)) {
             return result;
         }
-
-        expression = expression.replaceAll('[\\s]', '');
+//        expression = expression.replaceAll('[\\s]', '');
+        expression = expression.replaceAll('\\s+(?=(?:[^\\\'"]*[\\\'"][^\\\'"]*[\\\'"])*[^\\\'"]*$)', '');
         String parentCondition = expression.indexOf('AND') == 0 ? ' AND ' : ' OR ';
         Boolean isSingleExpression = expression.indexOf('AND(') != 0 && expression.indexOf('OR(') != 0;
         Boolean isCustomLogic = expression.indexOf('AND(') != -1 && expression.indexOf('OR(') != -1;
@@ -198,13 +208,14 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
             expression = expression.replaceAll(mMatcher.group(0).replace('(', '\\(').replace(')', '\\)').replaceAll('\\$', '\\\\\\$'), newValue);
         }
 
-        mPattern = pattern.compile('(BOOLEAN|DECIMAL|DATE|DATETIME|INTEGER|TEXT)\\([\\w".,-:/+]{1,}\\)');
+        mPattern = pattern.compile('(BOOLEAN|DECIMAL|DATE|DATETIME|INTEGER|TEXT)\\([\\w" .,-:/+]{1,}\\)');
         mMatcher = mPattern.matcher(expression);
 
         while (mMatcher.find()) {
             String newValue = mMatcher.group(0).replaceAll('[\\w]{1,}\\("', '').replaceAll('"\\)', '');
             expression = expression.replaceAll(mMatcher.group(0).replace('(', '\\(').replace(')', '\\)'), newValue);
         }
+
 
         expression = expression.replaceAll('==', ' equals ');
         expression = expression.replaceAll('!=', ' not_equal_to ');
@@ -215,6 +226,7 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
 
         Set<String> conditions = new Set<String>(expression.replaceAll('OR\\(', '')
                 .replaceAll('AND\\(', '')
+//                .removeEnd(')')
                 .replaceAll('\\)', '')
 //                .replaceAll('\\(', '')
                 .split(','));
@@ -385,7 +397,7 @@ OR(AND(CONTAINS($Account.Name, TEXT("1")),CONTAINS($Account.Name, TEXT("2"))), A
             if (lineParameters.size() == 3) {
                 List<String> fieldInfo = lineParameters[0].replaceAll('[$]', '').split('\\.');
                 String fieldName = customVariableDelimiter == null ? lineParameters[0] : lineParameters[0].replaceAll('\\$', customVariableDelimiter);
-                result.add(new ExpressionLineWrapper(fieldInfo[0], fieldName, '', lineParameters[1], lineParameters[2]));
+                result.add(new ExpressionLineWrapper(fieldInfo[0], fieldName, '', lineParameters[1], lineParameters[2].replaceAll(SPACE_SYMBOL, ' ')));
             }
         }
 

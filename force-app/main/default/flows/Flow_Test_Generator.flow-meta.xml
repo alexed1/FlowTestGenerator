@@ -21,12 +21,12 @@
     <actionCalls>
         <name>Count_Existing_Assertions</name>
         <label>Count Existing Assertions</label>
-        <locationX>1313</locationX>
-        <locationY>368</locationY>
+        <locationX>1558</locationX>
+        <locationY>614</locationY>
         <actionName>CountRecordsAndFields</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>screen_lwc_flowTestSetAssertions</targetReference>
+            <targetReference>Is_Existing_Values_Empty</targetReference>
         </connector>
         <dataTypeMappings>
             <typeName>T__inputCollection</typeName>
@@ -43,12 +43,12 @@
     <actionCalls>
         <name>Count_Number_Of_Input_Variables</name>
         <label>Count Number Of Input Variables</label>
-        <locationX>1087</locationX>
-        <locationY>500</locationY>
+        <locationX>1453</locationX>
+        <locationY>614</locationY>
         <actionName>CountRecordsAndFields</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Manage_Flow_Inputs</targetReference>
+            <targetReference>Count_Existing_Assertions</targetReference>
         </connector>
         <dataTypeMappings>
             <typeName>T__inputCollection</typeName>
@@ -65,8 +65,8 @@
     <actionCalls>
         <name>Generate_Flow_Test_Class</name>
         <label>Generate Flow Test Class</label>
-        <locationX>1716</locationX>
-        <locationY>513</locationY>
+        <locationX>1747</locationX>
+        <locationY>512</locationY>
         <actionName>FlowTestGenerator</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -209,8 +209,8 @@
     <decisions>
         <name>Is_Existing_Assertions_Empty</name>
         <label>Is Existing Assertions Empty</label>
-        <locationX>1408</locationX>
-        <locationY>661</locationY>
+        <locationX>1668</locationX>
+        <locationY>741</locationY>
         <defaultConnector>
             <targetReference>Delete_Existing_Assertions</targetReference>
         </defaultConnector>
@@ -234,8 +234,8 @@
     <decisions>
         <name>Is_Existing_Values_Empty</name>
         <label>Is Existing Values Empty</label>
-        <locationX>1305</locationX>
-        <locationY>663</locationY>
+        <locationX>1552</locationX>
+        <locationY>741</locationY>
         <defaultConnector>
             <targetReference>Delete_Existing_Value_Records</targetReference>
         </defaultConnector>
@@ -251,7 +251,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Flow_Test_Assertions</targetReference>
+                <targetReference>Is_Existing_Assertions_Empty</targetReference>
             </connector>
             <label>Yes</label>
         </rules>
@@ -349,20 +349,20 @@
     <recordCreates>
         <name>Insert_New_Assertions</name>
         <label>Insert New Assertions</label>
-        <locationX>1423</locationX>
-        <locationY>528</locationY>
+        <locationX>1345</locationX>
+        <locationY>614</locationY>
         <connector>
-            <targetReference>Is_Existing_Assertions_Empty</targetReference>
+            <targetReference>Count_Number_Of_Input_Variables</targetReference>
         </connector>
         <inputReference>lwc_flowTestSetAssertions.testAssertions</inputReference>
     </recordCreates>
     <recordCreates>
         <name>Insert_New_Option_Values</name>
         <label>Insert New Option Values</label>
-        <locationX>1197</locationX>
-        <locationY>519</locationY>
+        <locationX>1346</locationX>
+        <locationY>469</locationY>
         <connector>
-            <targetReference>Is_Existing_Values_Empty</targetReference>
+            <targetReference>Insert_New_Assertions</targetReference>
         </connector>
         <inputReference>lwc_setInputVariables.inputOptionsValues</inputReference>
     </recordCreates>
@@ -379,8 +379,8 @@
     <recordDeletes>
         <name>Delete_Existing_Assertions</name>
         <label>Delete Existing Assertions</label>
-        <locationX>1422</locationX>
-        <locationY>873</locationY>
+        <locationX>1682</locationX>
+        <locationY>922</locationY>
         <connector>
             <targetReference>Generate_Flow_Test</targetReference>
         </connector>
@@ -389,21 +389,21 @@
     <recordDeletes>
         <name>Delete_Existing_Value_Records</name>
         <label>Delete Existing Value Records</label>
-        <locationX>1308</locationX>
-        <locationY>873</locationY>
+        <locationX>1561</locationX>
+        <locationY>921</locationY>
         <connector>
-            <targetReference>Get_Flow_Test_Assertions</targetReference>
+            <targetReference>Delete_Existing_Assertions</targetReference>
         </connector>
         <inputReference>Get_Input_Values</inputReference>
     </recordDeletes>
     <recordLookups>
         <name>Get_Flow_Test_Assertions</name>
         <label>Get Flow Test Assertions</label>
-        <locationX>1313</locationX>
-        <locationY>512</locationY>
+        <locationX>1106</locationX>
+        <locationY>564</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Count_Existing_Assertions</targetReference>
+            <targetReference>screen_lwc_flowTestSetAssertions</targetReference>
         </connector>
         <filters>
             <field>Flow_Test__c</field>
@@ -443,7 +443,7 @@
         <locationY>572</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Count_Number_Of_Input_Variables</targetReference>
+            <targetReference>Manage_Flow_Inputs</targetReference>
         </connector>
         <filters>
             <field>Flow_Test__c</field>
@@ -493,11 +493,11 @@
     <screens>
         <name>Generate_Flow_Test</name>
         <label>Generate Flow Test</label>
-        <locationX>1562</locationX>
-        <locationY>513</locationY>
-        <allowBack>true</allowBack>
+        <locationX>1610</locationX>
+        <locationY>454</locationY>
+        <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
+        <allowPause>false</allowPause>
         <connector>
             <targetReference>Generate_Flow_Test_Class</targetReference>
         </connector>
@@ -512,13 +512,13 @@
     <screens>
         <name>Manage_Flow_Inputs</name>
         <label>Manage Flow Inputs</label>
-        <locationX>1198</locationX>
-        <locationY>374</locationY>
+        <locationX>1090</locationX>
+        <locationY>331</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Insert_New_Option_Values</targetReference>
+            <targetReference>Get_Flow_Test_Assertions</targetReference>
         </connector>
         <fields>
             <name>screen_Manage_Flow_Inputs_ManageInputVariables_Label</name>
@@ -625,13 +625,13 @@
     <screens>
         <name>screen_lwc_flowTestSetAssertions</name>
         <label>screen_lwc_flowTestSetAssertions</label>
-        <locationX>1423</locationX>
-        <locationY>368</locationY>
+        <locationX>1222</locationX>
+        <locationY>342</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Insert_New_Assertions</targetReference>
+            <targetReference>Insert_New_Option_Values</targetReference>
         </connector>
         <fields>
             <name>screen_lwc_flowTestSetAssertions_setOutputVariables_Label</name>
@@ -744,6 +744,22 @@
         </connector>
     </start>
     <status>Draft</status>
+    <variables>
+        <name>allInputVariables</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Flow_Test_Method_Input_Variable__c</objectType>
+    </variables>
+    <variables>
+        <name>allTestAssertions</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Flow_Test_Method_Assertion__c</objectType>
+    </variables>
     <variables>
         <name>chooseTest_outputTests</name>
         <dataType>SObject</dataType>

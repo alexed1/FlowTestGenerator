@@ -51,6 +51,11 @@ export default class expressionBuilder extends LightningElement {
         this.contextTypes = [...[this._objectName], ...this.splitValues(value)];
     }
 
+    settings = {
+        valueTypeString: 'string',
+        invalidCharactersRegex: /['"\\\/|&^]/g
+    }
+
     @wire(describeSObjects, {types: '$contextTypes'})
     _describeSObjects(result) {
         if (result.error) {
@@ -169,7 +174,11 @@ export default class expressionBuilder extends LightningElement {
     }
 
     isExpressionValid(expression) {
-        return !!(expression.fieldName && expression.operator && expression.parameter);
+        let isParameterValid = true;
+        if (expression.valueType === this.settings.valueTypeString) {
+            isParameterValid = !expression.parameter || !expression.parameter.match(this.settings.invalidCharactersRegex)
+        }
+        return !!(expression.fieldName && expression.operator && expression.parameter && isParameterValid);
     }
 
     handleRemoveExpression(event) {
@@ -224,5 +233,23 @@ export default class expressionBuilder extends LightningElement {
     @api
     getFormulaString() {
         return this.convertedExpression;
+    }
+
+    @api
+    validate() {
+        let validity = {
+            isValid: true
+        };
+        let inputsToVerify = this.template.querySelectorAll('c-expression-line');
+        if (inputsToVerify && inputsToVerify.length) {
+            inputsToVerify.forEach(curInput => {
+                let reportedValidity = curInput.validate();
+                if (!reportedValidity || !reportedValidity.isValid) {
+                    validity = reportedValidity;
+                    return reportedValidity;
+                }
+            })
+        }
+        return validity;
     }
 }

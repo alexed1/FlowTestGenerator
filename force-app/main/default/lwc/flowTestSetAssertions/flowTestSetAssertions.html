@@ -55,7 +55,7 @@
                             name={curTestAssertion.uid}
                             formula-string={curTestAssertion.Assertion_Formula__c}
                             add-button-label={labels.addExpressionButtonLabel}
-                            static-fields={_outputOptions}
+                            custom-merge-fields={_outputOptions}
                             dispatch-component-change-events
                             custom-variable-delimiter="##"
                             onexpressionchanged={handleExpressionChanged}

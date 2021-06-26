@@ -189,7 +189,7 @@ public with sharing class FlowTestGenerator {
                     '               }\n' +
                     '            }\n' +
                     '\n' +
-                    '            System.assertEquals(true, Boolean.valueOf(FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage+ \'\\nActual output values: \\n\' + outputVariables);\n' +
+                    '            System.assertEquals(true, Boolean.valueOf(usf.FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage+ \'\\nActual output values: \\n\' + outputVariables);\n' +
                     '        }\n' +
                     '\t}' ;
 }

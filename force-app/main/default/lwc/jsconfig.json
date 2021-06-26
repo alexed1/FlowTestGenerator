@@ -3,8 +3,26 @@
         "experimentalDecorators": true,
         "baseUrl": ".",
         "paths": {
+            "c/datatableV2": [
+                "datatableV2/datatableV2.js"
+            ],
+            "c/expressionBuilder": [
+                "expressionBuilder/expressionBuilder.js"
+            ],
+            "c/expressionLine": [
+                "expressionLine/expressionLine.js"
+            ],
             "c/flowPickerFSC": [
                 "flowPickerFSC/flowPickerFSC.js"
+            ],
+            "c/flowTestGeneratorUtils": [
+                "flowTestGeneratorUtils/flowTestGeneratorUtils.js"
+            ],
+            "c/flowTestSetAssertions": [
+                "flowTestSetAssertions/flowTestSetAssertions.js"
+            ],
+            "c/flowTestSetInputVariables": [
+                "flowTestSetInputVariables/flowTestSetInputVariables.js"
             ]
         }
     },
@@ -15,6 +33,11 @@
     "typeAcquisition": {
         "include": [
             "jest"
+        ]
+    },
+    "paths": {
+        "c/*": [
+            "*"
         ]
     }
 }

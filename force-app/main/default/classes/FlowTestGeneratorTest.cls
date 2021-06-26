@@ -29,7 +29,7 @@ class FlowTestGeneratorTest {
                 curAssertion = curAssertion.replaceAll('\\$' + curOutputVarName, (String) outputVariables.get(curOutputVarName));
             }
 
-            System.assertEquals(true, Boolean.valueOf(FormulaEvaluator.parseFormula(curAssertion, null)), assertionsToErrorMap.get(curAssertion));
+            System.assertEquals(true, Boolean.valueOf(usf.FormulaEvaluator.parseFormula(curAssertion, null)), assertionsToErrorMap.get(curAssertion));
         }
     }
 
@@ -62,7 +62,7 @@ class FlowTestGeneratorTest {
                 curAssertion = curAssertion.replaceAll('##' + curOutputVarName, '"'+(String)outputVariables.get(curOutputVarName)+'"');
             }
 
-            System.assertEquals(true, Boolean.valueOf(FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage);
+            System.assertEquals(true, Boolean.valueOf(usf.FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage);
         }
     }
 }

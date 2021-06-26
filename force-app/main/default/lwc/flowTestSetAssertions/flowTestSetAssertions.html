@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-1">
-                    <c-expression-builder
+                    <c-fsc_expression-builder
                             name={curTestAssertion.uid}
                             formula-string={curTestAssertion.Assertion_Formula__c}
                             add-button-label={labels.addExpressionButtonLabel}
@@ -59,7 +59,7 @@
                             dispatch-component-change-events
                             custom-variable-delimiter="##"
                             onexpressionchanged={handleExpressionChanged}
-                    ></c-expression-builder>
+                    ></c-fsc_expression-builder>
                 </div>
             </div>
         </template>

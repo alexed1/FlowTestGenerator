@@ -164,7 +164,7 @@ export default class FlowTestSetAssertions extends LightningElement {
         let validity = {
             isValid: true
         };
-        let inputsToVerify = this.template.querySelectorAll('c-expression-builder');
+        let inputsToVerify = this.template.querySelectorAll('c-fsc_expression-builder');
         if (inputsToVerify && inputsToVerify.length) {
             inputsToVerify.forEach(curInput => {
                 let reportedValidity = curInput.validate();

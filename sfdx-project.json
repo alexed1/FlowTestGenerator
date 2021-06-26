@@ -3,6 +3,15 @@
         {
             "path": "force-app",
             "default": true,
+            
+            "dependencies": [
+                {
+                    "package": "FlowActionsBasePack@2.24.0-0"
+                },
+                {
+                    "package": "FlowScreenComponentsBasePack@2.3.10-0"
+                }
+            ],
             "package": "FlowTestBuilder",
             "versionName": "ver 0.1",
             "versionNumber": "0.1.0.NEXT"
@@ -13,6 +22,8 @@
     "sourceApiVersion": "48.0",
     "packageAliases": {
         "FlowTestBuilder": "0Hof4000000TN9TCAW",
-        "FlowTestBuilder@1.0.0-0": "04tf4000003RQvvAAG"
+        "FlowTestBuilder@1.0.0-0": "04tf4000003RQvvAAG",
+        "FlowActionsBasePack@2.24.0-0": "04t4W00000308DpQAI",
+        "FlowScreenComponentsBasePack@2.3.10-0": "04t5G0000047xKvQAI"
     }
 }

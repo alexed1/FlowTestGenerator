@@ -71,5 +71,20 @@
                     onclick={handleAddTestAssertion}
             ></lightning-button>
         </div>
+        <div class="slds-p-top_large slds-float_right">
+            
+            <lightning-button
+                    label={labels.previousLabel}
+                    title={labels.previousLabel}
+                    onclick={previousFlow}
+            ></lightning-button>
+            <lightning-button
+                    label={labels.nextLabel}
+                    title={labels.nextLabel}
+                    onclick={nextFlow}
+                    disabled={isNextDisabled}
+                    variant="brand"
+            ></lightning-button>
+        </div>
     </div>
 </template>

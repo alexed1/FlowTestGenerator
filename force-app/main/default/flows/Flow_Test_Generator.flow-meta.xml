@@ -330,6 +330,12 @@
         </value>
     </processMetadataValues>
     <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
         <name>OriginBuilderType</name>
         <value>
             <stringValue>LightningFlowBuilder</stringValue>
@@ -663,7 +669,7 @@
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
-        <showFooter>true</showFooter>
+        <showFooter>false</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>

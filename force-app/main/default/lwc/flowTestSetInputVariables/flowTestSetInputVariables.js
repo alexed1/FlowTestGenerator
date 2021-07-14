@@ -125,9 +125,11 @@ export default class FlowTestSetInputVariables extends LightningElement {
     }
 
     handleValueChange(event) {
-        let curExpressionLine = this.getExpressionLineById(event.currentTarget.dataset.uid);
-        if (curExpressionLine) {
-            curExpressionLine[event.currentTarget.name] = event.target.value;
+        if(event.currentTarget.dataset) {
+            let curExpressionLine = this.getExpressionLineById(event.currentTarget.dataset.uid);
+            if (curExpressionLine) {
+                curExpressionLine[event.currentTarget.name] = event.target.value;
+            }
         }
         this.dispatchFlowValueChangedEvent();
     }

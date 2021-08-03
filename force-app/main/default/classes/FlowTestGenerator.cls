@@ -33,8 +33,8 @@ public with sharing class FlowTestGenerator {
 
             finalTestClassText += '\n}';
             try {
-                DeployApexClass.deploy(finalTestClassText, curFlowTest.Flow_Api_Name__c + '_Test', null);
-                responseWrapper.add(new Result(finalTestClassText.escapeHtml4(), false, null));
+                //DeployApexClass.deploy(finalTestClassText, curFlowTest.Flow_Api_Name__c + '_Test', null);
+                responseWrapper.add(new Result(finalTestClassText, curFlowTest.Flow_Api_Name__c + '_Test', false, null));
                 System.debug('finalTestClassText:::\n' + finalTestClassText);
             } catch (Exception ex) {
                 responseWrapper.add(new Result(null, true, 'Error Deploying the test class: \n' + ex.getMessage() + '; ' + ex.getStackTraceString()));
@@ -54,6 +54,8 @@ public with sharing class FlowTestGenerator {
         @InvocableVariable
         public String testClassText;
         @InvocableVariable
+        public String testClassName;
+        @InvocableVariable
         public Boolean isError;
         @InvocableVariable
         public String errorMessage;
@@ -62,6 +64,13 @@ public with sharing class FlowTestGenerator {
         }
         public Result(String testClassText, Boolean isError, String errorMessage) {
             this.testClassText = testClassText;
+            this.isError = isError;
+            this.errorMessage = errorMessage;
+        }
+
+        public Result(String testClassText, String testClassName, Boolean isError, String errorMessage) {
+            this.testClassText = testClassText;
+            this.testClassName = testClassName;
             this.isError = isError;
             this.errorMessage = errorMessage;
         }

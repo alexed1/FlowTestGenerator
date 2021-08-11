@@ -70,7 +70,7 @@
         <actionName>FlowTestGenerator</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Is_Test_Class_Error</targetReference>
+            <targetReference>Deploy_Apex_Class</targetReference>
         </connector>
         <inputParameters>
             <name>flowTestId</name>
@@ -259,8 +259,8 @@
     <decisions>
         <name>Is_Test_Class_Error</name>
         <label>Is Test Class Error</label>
-        <locationX>1851</locationX>
-        <locationY>514</locationY>
+        <locationX>2402</locationX>
+        <locationY>502</locationY>
         <defaultConnector>
             <targetReference>screen_FlowTestClassText</targetReference>
         </defaultConnector>
@@ -327,6 +327,12 @@
         <name>BuilderType</name>
         <value>
             <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
         </value>
     </processMetadataValues>
     <processMetadataValues>
@@ -491,6 +497,51 @@
         <showHeader>false</showHeader>
     </screens>
     <screens>
+        <name>Deploy_Apex_Class</name>
+        <label>Deploy Apex Class</label>
+        <locationX>1980</locationX>
+        <locationY>524</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Is_Test_Class_Error</targetReference>
+        </connector>
+        <fields>
+            <name>DepoyMetadata</name>
+            <extensionName>c:fsc_transferMetadata</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputParameters>
+                <name>metadataName</name>
+                <value>
+                    <elementReference>Generate_Flow_Test_Class.testClassName</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>metadataString</name>
+                <value>
+                    <elementReference>Generate_Flow_Test_Class.testClassText</elementReference>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>objectType</name>
+                <value>
+                    <stringValue>ApexClass</stringValue>
+                </value>
+            </inputParameters>
+            <inputParameters>
+                <name>transferMode</name>
+                <value>
+                    <stringValue>deploy</stringValue>
+                </value>
+            </inputParameters>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
         <name>Generate_Flow_Test</name>
         <label>Generate Flow Test</label>
         <locationX>1610</locationX>
@@ -593,8 +644,8 @@
     <screens>
         <name>screen_Display_Test_Class_Generation_Error</name>
         <label>Display Test Class Generation Error</label>
-        <locationX>1857</locationX>
-        <locationY>675</locationY>
+        <locationX>2663</locationX>
+        <locationY>644</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -609,8 +660,8 @@
     <screens>
         <name>screen_FlowTestClassText</name>
         <label>Displate Generated Test Class</label>
-        <locationX>1857</locationX>
-        <locationY>353</locationY>
+        <locationX>2548</locationX>
+        <locationY>300</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -663,7 +714,7 @@
             <isRequired>true</isRequired>
             <storeOutputAutomatically>true</storeOutputAutomatically>
         </fields>
-        <showFooter>true</showFooter>
+        <showFooter>false</showFooter>
         <showHeader>true</showHeader>
     </screens>
     <screens>

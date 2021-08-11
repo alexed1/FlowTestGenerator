@@ -1,6 +1,6 @@
 import {LightningElement, api, track} from 'lwc';
 import {settings} from 'c/flowTestGeneratorUtils';
-import {FlowAttributeChangeEvent} from 'lightning/flowSupport';
+import { FlowAttributeChangeEvent, FlowNavigationNextEvent, FlowNavigationBackEvent, FlowNavigationFinishEvent } from 'lightning/flowSupport';
 
 export default class FlowTestSetAssertions extends LightningElement {
     @api flowTestId;
@@ -35,6 +35,20 @@ export default class FlowTestSetAssertions extends LightningElement {
         }
     }
 
+
+    get isNextDisabled() {
+        let isDisabled = false;
+        this.testAssertions.forEach(
+            element => {
+                if(!element.Assertion_Formula__c){
+                    isDisabled = true;
+                }
+            }
+        );
+
+        return isDisabled;
+    }
+   
     dispatchFlowValueChangedEvent() {
         const valueChangeEvent = new FlowAttributeChangeEvent('testAssertions', this.testAssertions);
         // this.dispatchEvent(valueChangeEvent);
@@ -75,7 +89,9 @@ export default class FlowTestSetAssertions extends LightningElement {
         generateTestClassLabel: "Generate Test Class",
         testMethodNameLabel: "Test Method Name",
         setOutputVariablesButtonLabel: "Set Output Variables",
-        confirmAndGenerateButtonLabel: "Confirm and Generate"
+        confirmAndGenerateButtonLabel: "Confirm and Generate",
+        nextLabel: "Next",
+        previousLabel: "Previous"
     }
 
     setVariablesOptions() {
@@ -175,5 +191,13 @@ export default class FlowTestSetAssertions extends LightningElement {
             })
         }
         return validity;
+    }
+
+    nextFlow() {
+        this.dispatchEvent(new FlowNavigationNextEvent());
+    }
+
+    previousFlow() {
+        this.dispatchEvent(new FlowNavigationBackEvent());
     }
 }

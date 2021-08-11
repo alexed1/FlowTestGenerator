@@ -6,10 +6,10 @@
             
             "dependencies": [
                 {
-                    "package": "FlowActionsBasePack@2.24.0-0"
+                    "package": "FlowActionsBasePack@2.29.0-0"
                 },
                 {
-                    "package": "FlowScreenComponentsBasePack@2.3.10-0"
+                    "package": "FlowScreenComponentsBasePack@2.5.1-0"
                 }
             ],
             "package": "FlowTestBuilder",
@@ -24,6 +24,8 @@
         "FlowTestBuilder": "0Hof4000000TN9TCAW",
         "FlowTestBuilder@1.0.0-0": "04tf4000003RQvvAAG",
         "FlowActionsBasePack@2.24.0-0": "04t4W00000308DpQAI",
-        "FlowScreenComponentsBasePack@2.3.10-0": "04t5G0000047xKvQAI"
+        "FlowScreenComponentsBasePack@2.3.10-0": "04t5G0000047xKvQAI",
+        "FlowActionsBasePack@2.29.0-0": "04t4W00000308DpQAI",
+        "FlowScreenComponentsBasePack@2.5.1-0": "04t5G0000047xKvQAI"
     }
 }

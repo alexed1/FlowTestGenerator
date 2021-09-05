@@ -1,4 +1,4 @@
-
+@TestVisible
 public with sharing class AssembleInputParams {
     private static final Integer NUMBER_OF_PARAMS = 4;
 

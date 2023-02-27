@@ -40,7 +40,7 @@ class Test_Autolaunched_Flow_Test {
                 }
             }
 
-            System.assertEquals(true, Boolean.valueOf(usf.FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage+ '\nActual output values: \n' + outputVariables);
+            System.assertEquals(true, Boolean.valueOf(usf3.FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage+ '\nActual output values: \n' + outputVariables);
         }
     }
 }

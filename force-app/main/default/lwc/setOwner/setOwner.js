@@ -12,9 +12,9 @@ import Users from '@salesforce/label/c.Users';
 import USER_NAME_FIELD from '@salesforce/schema/User.Name';
 import GROUP_NAME_FIELD from '@salesforce/schema/Group.Name';
 
-import searchMemberByType from '@salesforce/apex/usf.SearchUtils.searchMemberByType';
+import searchMemberByType from '@salesforce/apex/usf3.SearchUtils.searchMemberByType';
 
-import getSingleMembersByTypeAndId from '@salesforce/apex/usf.SearchUtils.getSingleMembersByTypeAndId';
+import getSingleMembersByTypeAndId from '@salesforce/apex/usf3.SearchUtils.getSingleMembersByTypeAndId';
 import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 //import {logger, logError} from 'fbc/lwcLogger';
 

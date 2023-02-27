@@ -509,7 +509,7 @@
         </connector>
         <fields>
             <name>DepoyMetadata</name>
-            <extensionName>c:fsc_transferMetadata</extensionName>
+            <extensionName>c:fsc_transferMetadata3</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
                 <name>metadataName</name>

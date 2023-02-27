@@ -2,14 +2,14 @@
     <div style="color:red;">{errorStrings}  </div>
     <!-- <lightning-card title='Field Update Edit'> -->
         <div >
-            <c-fsc_pick-object-and-field
+            <c-fsc_pick-object-and-field3
                     field-label='Field to Update'
                     object-label='Object'
                     object-type={_objectType}
                     field={_fieldName}
                     onfieldselected={handleFieldChange}
                     display-field-type
-            ></c-fsc_pick-object-and-field>
+            ></c-fsc_pick-object-and-field3>
             <template if:true={fieldProperties}>
                 <template if:true={fieldProperties.isDisabled}>
                     <div class="slds-text-color_destructive">
@@ -28,9 +28,9 @@
                             <a onclick={toggleFormulaEditor}>{formulaEditorMessage}</a>
                             <template if:true={formulaEditorVisible}>
                                 <div>
-                                    <c-fsc_formula-builder object-name={_objectType}
+                                    <c-fsc_formula-builder3 object-name={_objectType}
                                                        supported-system-types={supportedSystemTypes}
-                                                       onformulachanged={handleValueChange}></c-fsc_formula-builder>
+                                                       onformulachanged={handleValueChange}></c-fsc_formula-builder3>
                                 </div>
                             </template>
                             <template if:false={formulaEditorVisible}>

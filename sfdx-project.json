@@ -1,31 +1,33 @@
 {
-    "packageDirectories": [
+  "packageDirectories": [
+    {
+      "path": "force-app",
+      "default": true,
+      "dependencies": [
         {
-            "path": "force-app",
-            "default": true,
-            
-            "dependencies": [
-                {
-                    "package": "FlowActionsBasePack@2.29.0-0"
-                },
-                {
-                    "package": "FlowScreenComponentsBasePack@2.5.1-0"
-                }
-            ],
-            "package": "FlowTestBuilder",
-            "versionName": "ver 0.1",
-            "versionNumber": "0.1.0.NEXT"
+          "package": "FlowActionsBasePack@3.11.0-0"
+        },
+        {
+          "package": "FlowScreenComponentsBasePack@3.0.18-0"
         }
-    ],
-    "namespace": "",
-    "sfdcLoginUrl": "https://login.salesforce.com",
-    "sourceApiVersion": "48.0",
-    "packageAliases": {
-        "FlowTestBuilder": "0Hof4000000TN9TCAW",
-        "FlowTestBuilder@1.0.0-0": "04tf4000003RQvvAAG",
-        "FlowActionsBasePack@2.24.0-0": "04t4W00000308DpQAI",
-        "FlowScreenComponentsBasePack@2.3.10-0": "04t5G0000047xKvQAI",
-        "FlowActionsBasePack@2.29.0-0": "04t4W00000308DpQAI",
-        "FlowScreenComponentsBasePack@2.5.1-0": "04t5G0000047xKvQAI"
+      ],
+      "package": "FlowTestBuilder",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT"
     }
+  ],
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "48.0",
+  "packageAliases": {
+    "FlowTestBuilder": "0Hof4000000TN9TCAW",
+    "FlowTestBuilder@1.0.0-0": "04tf4000003RQvvAAG",
+    "FlowActionsBasePack@3.11.0-0": "04t8b000000mL0aAAE",
+    "FlowScreenComponentsBasePack@3.0.18-0": "04t5G0000043xsbQAA",
+    "FlowActionsBasePack@2.32.0-0": "04t4W0000034KebQAE",
+    "FlowScreenComponentsBasePack@2.5.5-0": "04t5G000003rUabQAE",
+    "FlowTestBuilder@1.0.1-0": "04t5G000003rUbjQAE",
+    "FlowTestBuilder@1.0.2-0": "04t5G000003rUdQQAU",
+    "FlowTestBuilder@3.0.0": "04t5G000004C6uTQAS"
+  }
 }

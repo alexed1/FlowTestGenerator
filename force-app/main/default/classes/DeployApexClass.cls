@@ -1,24 +1,24 @@
 //this will take a string and turn it into an ApexClass. Use Caution.
 public with sharing class DeployApexClass {
     public static void deploy(String classText, String className, String testLevel) {
-        usf.MetadataService.MetadataPort service = new usf.MetadataService.MetadataPort();
-        service.SessionHeader = new usf.MetadataService.SessionHeader_element();
+        usf3.MetadataService.MetadataPort service = new usf3.MetadataService.MetadataPort();
+        service.SessionHeader = new usf3.MetadataService.SessionHeader_element();
         service.SessionHeader.sessionId = UserInfo.getSessionId();
         if (String.isEmpty(testLevel))
             testLevel = 'NoTestRun';
 
         String zippedClass = generateZipfile(classText, className);
-        usf.MetadataService.AsyncResult deployResult= service.deploy(zippedClass, getDeployOptions());
+        usf3.MetadataService.AsyncResult deployResult= service.deploy(zippedClass, getDeployOptions());
 
         String jobId = deployResult.id;
-        usf.MetadataService.DeployResult result = service.checkDeployStatus(jobId,true);
+        usf3.MetadataService.DeployResult result = service.checkDeployStatus(jobId,true);
         System.debug('deploy status is: ' + className + ' ' + result.status + ' ' + result.stateDetail); 
 
     }
         
 
     public static String generateZipfile(String classText, String className) {
-            usf.Zippex sampleZip = new usf.Zippex();
+            usf3.Zippex sampleZip = new usf3.Zippex();
             Blob fileData = Blob.valueOf(getPackageXml(className));
             sampleZip.addFile('package.xml', fileData, null);
             fileData = Blob.valueOf(getStandardApexClassMetadata());
@@ -28,9 +28,9 @@ public with sharing class DeployApexClass {
             return EncodingUtil.base64Encode(sampleZip.getZipArchive());
 
         }
-    public static usf.MetadataService.DeployOptions getDeployOptions(){
+    public static usf3.MetadataService.DeployOptions getDeployOptions(){
              
-        usf.MetadataService.DeployOptions lvDeployOption = new usf.MetadataService.DeployOptions();
+        usf3.MetadataService.DeployOptions lvDeployOption = new usf3.MetadataService.DeployOptions();
         lvDeployOption.allowMissingFiles = false;
         lvDeployOption.autoUpdatePackage = true;
         lvDeployOption.checkOnly = false;

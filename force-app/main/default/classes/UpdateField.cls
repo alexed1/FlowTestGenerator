@@ -10,7 +10,7 @@ public with sharing class UpdateField {
         List<ContextWrapper> contextWrappers = new List<ContextWrapper>();
         contextWrappers.add(new ContextWrapper('$Record',  objectId));
 
-        String fieldValue = usf.FormulaEvaluator.parseFormula( formula, JSON.serialize(contextWrappers));
+        String fieldValue = usf3.FormulaEvaluator.parseFormula( formula, JSON.serialize(contextWrappers));
         System.debug(fieldValue);
         String objectAPIName;
         String keyPrefix = objectId.substring(0,3);

@@ -70,7 +70,7 @@ class FlowTestGeneratorTest {
                }
             }
 
-            System.assertEquals(true, Boolean.valueOf(usf.FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage+ '\nActual output values: \n' + outputVariables);
+            System.assertEquals(true, Boolean.valueOf(usf3.FormulaEvaluator.parseFormula(curAssertion, null)), errorMessage+ '\nActual output values: \n' + outputVariables);
         }
 
         System.assert(typedInputVariablesMap.get('inputOutputDate') != null);
